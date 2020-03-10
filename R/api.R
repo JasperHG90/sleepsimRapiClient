@@ -1,0 +1,122 @@
+## Communicate with the simulator setting API
+
+#' Fetch simulation settings used for this simulation scenario
+#'
+#' @param uid unique id of this container
+#'
+#' @importFrom httr GET
+#' @importFrom httr content
+#' @importFrom httr authenticate
+#' @importFrom httr add_header
+#' @importFrom httr stop_for_status
+#'
+#' @return list containing 14 elements. Simulation settings
+#'
+#' @export
+query_simulation_settings <- function(uid = getOption("sleepsimR_uid")) {
+  # HOST/PWD/USR
+  host <- Sys.getenv("SLEEPSIMR_MASTER_HOST")
+  usr <- Sys.getenv("SLEEPSIMR_API_USERNAME")
+  pwd <- Sys.getenv("SLEEPSIMR_API_PASSWORD")
+  # Make endpoint
+  ep <- file.path(host, "parameters")
+  # GET
+  resp <- GET(ep,
+              add_headers("uid" = uid),
+              authenticate(user=usr, password=pwd),
+              encode = "json")
+  stop_for_status(resp)
+  # Return
+  return(content(resp))
+}
+
+#' Check if connection to server is possible
+#'
+#' @importFrom httr http_error
+#'
+#' @return TRUE if connection active, else FALSE
+#'
+#' @export
+check_connection <- function() {
+  serv <- Sys.getenv("SLEEPSIMR_MASTER_HOST")
+  # Get retinas from the api
+  httr::http_error(serv)
+}
+
+#' Register the address of the host server
+#'
+#' @param url url of the master host
+#'
+#' @return Exits silently
+#'
+#' @export
+set_host <- function(url) {
+  Sys.setenv("SLEEPSIMR_MASTER_HOST" = url)
+}
+
+#' Set the username/password to access the API
+#'
+#' @param password password used to authenticate with the API
+#' @param username username used to authenticate with the API
+#'
+#' @return Exits silently
+#'
+#' @export
+set_usr_pwd <- function(password, username) {
+  Sys.setenv("SLEEPSIMR_API_USERNAME" = username)
+  Sys.setenv("SLEEPSIMR_API_PASSWORD" = password)
+}
+
+#' Send the results of the simulation to the master node
+#'
+#' @param scenario_uid string. unique id of the current simulation scenario
+#' @param iteration_uid string. unique id of the iteration of the current scenario
+#' @param emiss_mu_bar list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.
+#' @param gamma_int_bar numeric vector. m x m values where m is the number of hidden states.
+#' @param emiss_var_bar list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.
+#' @param emiss_varmu_bar list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.
+#' @param credible_interval list. The length of this list is equal to the number of dependent variables plus one. The elements of the list are (in this order): (1) a list containing m x m elements with the lower and upper 95\% CI of the between-subject TPM intercepts (gamma_int_bar), (2) n_dep lists containing m elements with the lower and upper 95\% CI of the between-subject emission distributions.
+#' @param uid unique id of this container
+#'
+#' @importFrom httr POST
+#' @importFrom httr content
+#' @importFrom httr authenticate
+#' @importFrom httr stop_for_status
+#'
+#' @return if successful, a message telling the container to shut down.
+#'
+#' @export
+register_simulation_outcomes <- function(scenario_uid,
+                                         iteration_uid,
+                                         emiss_mu_bar,
+                                         gamma_int_bar,
+                                         emiss_var_bar,
+                                         emiss_varmu_bar,
+                                         credible_interval,
+                                         uid = getOption("sleepsimR_uid")) {
+  # Collect options
+  host <- Sys.getenv("SLEEPSIMR_MASTER_HOST")
+  usr <- Sys.getenv("SLEEPSIMR_API_USERNAME")
+  pwd <- Sys.getenv("SLEEPSIMR_API_PASSWORD")
+  # Make endpoint
+  ep <- file.path(host, "results")
+  # Make body
+  nb <- list(
+    "uid" = uid,
+    "scenario_uid" = scenario_uid,
+    "iteration_uid" = iteration_uid,
+    "emiss_mu_bar" = emiss_mu_bar,
+    "gamma_int_bar" = gamma_int_bar,
+    "emiss_var_bar" = emiss_var_bar,
+    "emiss_varmu_bar" = emiss_varmu_bar,
+    "credible_intervals" = credible_interval
+  )
+  # Make post request
+  resp <- POST(ep,
+               body=nb,
+               authenticate(user=usr, password=pwd),
+               encode="json")
+  # Get content
+  stop_for_status(resp)
+  return(content(resp))
+}

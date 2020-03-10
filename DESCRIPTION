@@ -9,6 +9,14 @@ Description: This library contains R functions that allow the
     user to communicate with the sleepsimR API that I use as
     a resource manager for my thesis. For extended documentation
     see <https://github.com/JasperHG90/sleepsimR-documentation>
+Imports:
+     assertthat,
+     jsonlite,
+     httr
+URL:
+    https://github.com/JasperHG90/sleepsimRapiClient
+BugReports:
+    https://github.com/JasperHG90/sleepsimRapiClient/issues
 License: MIT
 Encoding: UTF-8
 LazyData: true
