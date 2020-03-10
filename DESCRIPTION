@@ -1,0 +1,14 @@
+Package: sleepsimRapiClient
+Type: Package
+Title: R library that facilitates communication with the 
+    sleepsimR API <https://github.com/JasperHG90/sleepsimR-api>
+Version: 0.1.0
+Author: Jasper Ginn
+Maintainer: Jasper Ginn <Jasperginn@gmail.com>
+Description: This library contains R functions that allow the 
+    user to communicate with the sleepsimR API that I use as
+    a resource manager for my thesis. For extended documentation
+    see <https://github.com/JasperHG90/sleepsimR-documentation>
+License: MIT
+Encoding: UTF-8
+LazyData: true
