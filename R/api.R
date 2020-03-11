@@ -1,5 +1,36 @@
 ## Communicate with the simulator setting API
 
+#' Fetch information about the number of allocated containers, number of completed etc.
+#'
+#' @return list containing three elements
+#' \describe{
+#'     \item{allocated}{number of containers that are currently allocated but not yet finished}
+#'     \item{finished}{number of containers that are completely finished}
+#'     \item{finished_past_day}{number of containers that have finished in the past 24 hours}
+#' }
+#'
+#' @importFrom httr GET
+#' @importFrom httr content
+#' @importFrom httr authenticate
+#' @importFrom httr stop_for_status
+#'
+#' @export
+sleemsimR_completed_info <- function() {
+  # HOST/PWD/USR
+  host <- Sys.getenv("SLEEPSIMR_MASTER_HOST")
+  usr <- Sys.getenv("SLEEPSIMR_API_USERNAME")
+  pwd <- Sys.getenv("SLEEPSIMR_API_PASSWORD")
+  # Make endpoint
+  ep <- file.path(host, "info")
+  # GET
+  resp <- GET(ep,
+              authenticate(user=usr, password=pwd),
+              encode = "json")
+  stop_for_status(resp)
+  # Return
+  return(content(resp))
+}
+
 #' Fetch simulation settings used for this simulation scenario
 #'
 #' @param uid unique id of this container
@@ -10,7 +41,7 @@
 #' @importFrom httr add_headers
 #' @importFrom httr stop_for_status
 #'
-#' @return list containing 14 elements. Simulation settings
+#' @return list containing 12 elements. Simulation settings
 #'
 #' @export
 query_simulation_settings <- function(uid = getOption("sleepsimR_uid")) {

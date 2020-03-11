@@ -10,7 +10,7 @@ query_simulation_settings(uid = getOption("sleepsimR_uid"))
 \item{uid}{unique id of this container}
 }
 \value{
-list containing 14 elements. Simulation settings
+list containing 12 elements. Simulation settings
 }
 \description{
 Fetch simulation settings used for this simulation scenario
