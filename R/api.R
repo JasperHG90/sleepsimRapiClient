@@ -7,7 +7,7 @@
 #' @importFrom httr GET
 #' @importFrom httr content
 #' @importFrom httr authenticate
-#' @importFrom httr add_header
+#' @importFrom httr add_headers
 #' @importFrom httr stop_for_status
 #'
 #' @return list containing 14 elements. Simulation settings
