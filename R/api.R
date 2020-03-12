@@ -146,7 +146,7 @@ register_simulation_outcomes <- function(scenario_uid,
     "emiss_varmu_bar" = emiss_varmu_bar,
     "credible_intervals" = credible_interval,
     "label_switch" = label_switch,
-    "state_order" = orig_state_order
+    "state_order" = state_order
   )
   # Make post request
   resp <- POST(ep,
