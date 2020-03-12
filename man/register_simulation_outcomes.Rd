@@ -13,6 +13,7 @@ register_simulation_outcomes(
   emiss_varmu_bar,
   credible_interval,
   label_switch,
+  state_order,
   uid = getOption("sleepsimR_uid")
 )
 }
@@ -32,6 +33,8 @@ register_simulation_outcomes(
 \item{credible_interval}{list. The length of this list is equal to the number of dependent variables plus one. The elements of the list are (in this order): (1) a list containing m x m elements with the lower and upper 95\% CI of the between-subject TPM intercepts (gamma_int_bar), (2) n_dep lists containing m elements with the lower and upper 95\% CI of the between-subject emission distributions.}
 
 \item{label_switch}{Numeric vector of length m x n_dep.}
+
+\item{state_order}{List with n_dep numeric vectors containing integers indicating the ordering of the state means (as per the start values) after handing it off to \link[sleepsimR]{run_mHMM}. To detect label switching, the order of hyperprior means and start values are ranked from low to high. However, this is annoying when comparing estimated means to the ground-truth values (because they have not been ordered).}
 
 \item{uid}{unique id of this container}
 }
