@@ -107,6 +107,7 @@ set_usr_pwd <- function(password, username) {
 #' @param emiss_var_bar list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.
 #' @param emiss_varmu_bar list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.
 #' @param credible_interval list. The length of this list is equal to the number of dependent variables plus one. The elements of the list are (in this order): (1) a list containing m x m elements with the lower and upper 95\% CI of the between-subject TPM intercepts (gamma_int_bar), (2) n_dep lists containing m elements with the lower and upper 95\% CI of the between-subject emission distributions.
+#' @param label_switch Numeric vector of length m x n_dep.
 #' @param uid unique id of this container
 #'
 #' @importFrom httr POST
@@ -124,6 +125,7 @@ register_simulation_outcomes <- function(scenario_uid,
                                          emiss_var_bar,
                                          emiss_varmu_bar,
                                          credible_interval,
+                                         label_switch,
                                          uid = getOption("sleepsimR_uid")) {
   # Collect options
   host <- Sys.getenv("SLEEPSIMR_MASTER_HOST")
@@ -140,7 +142,8 @@ register_simulation_outcomes <- function(scenario_uid,
     "gamma_int_bar" = gamma_int_bar,
     "emiss_var_bar" = emiss_var_bar,
     "emiss_varmu_bar" = emiss_varmu_bar,
-    "credible_intervals" = credible_interval
+    "credible_intervals" = credible_interval,
+    "label_switch" = label_switch
   )
   # Make post request
   resp <- POST(ep,
