@@ -15,7 +15,7 @@
 #' @importFrom httr stop_for_status
 #'
 #' @export
-sleemsimR_completed_info <- function() {
+simulations_completed_info <- function() {
   # HOST/PWD/USR
   host <- Sys.getenv("SLEEPSIMR_MASTER_HOST")
   usr <- Sys.getenv("SLEEPSIMR_API_USERNAME")
@@ -149,5 +149,31 @@ register_simulation_outcomes <- function(scenario_uid,
                encode="json")
   # Get content
   stop_for_status(resp)
+  return(content(resp))
+}
+
+#' Get the container ids of all current workers
+#'
+#' @importFrom httr GET
+#' @importFrom httr content
+#' @importFrom httr authenticate
+#' @importFrom httr stop_for_status
+#'
+#' @return character vector containing the unique ids of the container processes.
+#'
+#' @export
+get_active_workers <- function() {
+  # HOST/PWD/USR
+  host <- Sys.getenv("SLEEPSIMR_MASTER_HOST")
+  usr <- Sys.getenv("SLEEPSIMR_API_USERNAME")
+  pwd <- Sys.getenv("SLEEPSIMR_API_PASSWORD")
+  # Make endpoint
+  ep <- file.path(host, "active_workers")
+  # GET
+  resp <- GET(ep,
+              authenticate(user=usr, password=pwd),
+              encode = "json")
+  stop_for_status(resp)
+  # Return
   return(content(resp))
 }
