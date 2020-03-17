@@ -7,6 +7,7 @@
 register_simulation_outcomes(
   scenario_uid,
   iteration_uid,
+  PD_subj,
   emiss_mu_bar,
   gamma_int_bar,
   emiss_var_bar,
@@ -21,6 +22,8 @@ register_simulation_outcomes(
 \item{scenario_uid}{string. unique id of the current simulation scenario}
 
 \item{iteration_uid}{string. unique id of the iteration of the current scenario}
+
+\item{PD_subj}{list. The length of this list is equal to the number of subjects. It contains the subject-specific parameter estimates of the state-dependent means for each emission distribution. For more information, see return objects from \link[mHMMbayes]{mHMM_cont}.}
 
 \item{emiss_mu_bar}{list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.}
 
