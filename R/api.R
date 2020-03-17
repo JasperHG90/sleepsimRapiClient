@@ -102,6 +102,7 @@ set_usr_pwd <- function(password, username) {
 #'
 #' @param scenario_uid string. unique id of the current simulation scenario
 #' @param iteration_uid string. unique id of the iteration of the current scenario
+#' @param PD_subj list. The length of this list is equal to the number of subjects. It contains the subject-specific parameter estimates of the state-dependent means for each emission distribution. For more information, see return objects from \link[mHMMbayes]{mHMM_cont}.
 #' @param emiss_mu_bar list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.
 #' @param gamma_int_bar numeric vector. m x m values where m is the number of hidden states.
 #' @param emiss_var_bar list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.
@@ -121,6 +122,7 @@ set_usr_pwd <- function(password, username) {
 #' @export
 register_simulation_outcomes <- function(scenario_uid,
                                          iteration_uid,
+                                         PD_subj,
                                          emiss_mu_bar,
                                          gamma_int_bar,
                                          emiss_var_bar,
@@ -140,6 +142,7 @@ register_simulation_outcomes <- function(scenario_uid,
     "uid" = uid,
     "scenario_uid" = scenario_uid,
     "iteration_uid" = iteration_uid,
+    "PD_subj" = PD_subj,
     "emiss_mu_bar" = emiss_mu_bar,
     "gamma_int_bar" = gamma_int_bar,
     "emiss_var_bar" = emiss_var_bar,
