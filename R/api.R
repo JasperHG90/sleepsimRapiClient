@@ -13,6 +13,7 @@
 #' @importFrom httr content
 #' @importFrom httr authenticate
 #' @importFrom httr stop_for_status
+#' @importFrom httr timeout
 #'
 #' @export
 simulations_completed_info <- function() {
@@ -25,6 +26,7 @@ simulations_completed_info <- function() {
   # GET
   resp <- GET(ep,
               authenticate(user=usr, password=pwd),
+              timeout(60),
               encode = "json")
   stop_for_status(resp)
   # Return
@@ -40,6 +42,7 @@ simulations_completed_info <- function() {
 #' @importFrom httr authenticate
 #' @importFrom httr add_headers
 #' @importFrom httr stop_for_status
+#' @importFrom httr timeout
 #'
 #' @return list containing 12 elements. Simulation settings
 #'
@@ -55,6 +58,7 @@ query_simulation_settings <- function(uid = getOption("sleepsimR_uid")) {
   resp <- GET(ep,
               add_headers("uid" = uid),
               authenticate(user=usr, password=pwd),
+              timeout(60),
               encode = "json")
   stop_for_status(resp)
   # Return
@@ -116,6 +120,7 @@ set_usr_pwd <- function(password, username) {
 #' @importFrom httr content
 #' @importFrom httr authenticate
 #' @importFrom httr stop_for_status
+#' @importFrom httr timeout
 #'
 #' @return if successful, a message telling the container to shut down.
 #'
@@ -155,6 +160,7 @@ register_simulation_outcomes <- function(scenario_uid,
   resp <- POST(ep,
                body=nb,
                authenticate(user=usr, password=pwd),
+               timeout(60),
                encode="json")
   # Get content
   stop_for_status(resp)
@@ -181,6 +187,7 @@ get_active_workers <- function() {
   # GET
   resp <- GET(ep,
               authenticate(user=usr, password=pwd),
+              timeout(60),
               encode = "json")
   stop_for_status(resp)
   # Return
