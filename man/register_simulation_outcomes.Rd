@@ -9,7 +9,7 @@ register_simulation_outcomes(
   iteration_uid,
   PD_subj,
   emiss_mu_bar,
-  gamma_int_bar,
+  gamma_prob_bar,
   emiss_var_bar,
   emiss_varmu_bar,
   credible_interval,
@@ -27,8 +27,6 @@ register_simulation_outcomes(
 
 \item{emiss_mu_bar}{list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.}
 
-\item{gamma_int_bar}{numeric vector. m x m values where m is the number of hidden states.}
-
 \item{emiss_var_bar}{list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.}
 
 \item{emiss_varmu_bar}{list. The length of this list is equal to the number of dependent variables. Each element of the list is a numeric vector that is equal to the number of hidden states, the value of which is the Maximum A Posteriori (MAP) estimate of that parameter.}
@@ -40,6 +38,8 @@ register_simulation_outcomes(
 \item{state_order}{List with n_dep numeric vectors containing integers indicating the ordering of the state means (as per the start values) after handing it off to \link[sleepsimR]{run_mHMM}. To detect label switching, the order of hyperprior means and start values are ranked from low to high. However, this is annoying when comparing estimated means to the ground-truth values (because they have not been ordered).}
 
 \item{uid}{unique id of this container}
+
+\item{gamma_int_bar}{numeric vector. m x m values where m is the number of hidden states.}
 }
 \value{
 if successful, a message telling the container to shut down.
